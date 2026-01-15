@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.5](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.0.4...mono-1-0.0.5) (2026-01-15)
+
+
+### Features
+
+* **mono-1:** change hello1 return value to 123 ([db4058d](https://github.com/Phathdt/mono-sdk/commit/db4058d966ba7474b2fa069c37d1e088f88157f1))
+
 ## [0.0.4](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.0.3...mono-1-0.0.4) (2026-01-15)
 
 
