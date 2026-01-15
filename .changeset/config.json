@@ -1,0 +1,20 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.1.2/schema.json",
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "mono-sdk/mono-sdk" }
+  ],
+  "commit": false,
+  "fixed": [],
+  "linked": [
+    ["@mono-sdk/mono-1", "@mono-sdk/mono-2"]
+  ],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": [],
+  "privatePackages": {
+    "version": true,
+    "tag": false
+  }
+}
