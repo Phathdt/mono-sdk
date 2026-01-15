@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.5](https://github.com/Phathdt/mono-sdk/compare/mono-2-0.0.4...mono-2-0.0.5) (2026-01-15)
+
+
+### Bug Fixes
+
+* resolve typecheck CI failure ([6c83b98](https://github.com/Phathdt/mono-sdk/commit/6c83b988b026548e533e9271927b0461e6f09a1e))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @phathdt/mono-1 bumped from ^0.0.3 to ^0.0.4
+
 ## [0.0.4](https://github.com/Phathdt/mono-sdk/compare/mono-2-0.0.3...mono-2-0.0.4) (2026-01-15)
 
 
