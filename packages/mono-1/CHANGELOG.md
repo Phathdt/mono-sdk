@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.7](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.0.6...mono-1-0.0.7) (2026-01-15)
+
+
+### Features
+
+* 🎸 hello 1 to 123 ([56b08d6](https://github.com/Phathdt/mono-sdk/commit/56b08d624a9943b8a8ba1168fb6310130341f861))
+* 🎸 hello 1 to 123 ([b4c5461](https://github.com/Phathdt/mono-sdk/commit/b4c54613901e1087c649e515d43c2827e4fd445b))
+* 🎸 hello 1 to 12345 ([e1f063e](https://github.com/Phathdt/mono-sdk/commit/e1f063e67a3bef57d200d73fac4e142e86d24b2e))
+
+
+### Bug Fixes
+
+* 🐛 hello 1 to 1234 ([1235e68](https://github.com/Phathdt/mono-sdk/commit/1235e6872b8d2d0d51ec1e58c3fe52552e4f2f1e))
+
 ## [0.0.6](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.0.5...mono-1-0.0.6) (2026-01-15)
 
 
