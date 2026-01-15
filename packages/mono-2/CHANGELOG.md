@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.0.7](https://github.com/Phathdt/mono-sdk/compare/mono-2-0.0.6...mono-2-0.0.7) (2026-01-15)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @phathdt/mono-1 bumped from ^0.0.5 to ^0.0.6
+
 ## [0.0.6](https://github.com/Phathdt/mono-sdk/compare/mono-2-0.0.5...mono-2-0.0.6) (2026-01-15)
 
 
