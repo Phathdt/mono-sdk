@@ -30,7 +30,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@phathdt/mono-1": "*"
+    "@phathdt/mono-1": "^0.0.3"
   },
   "devDependencies": {
     "tsdown": "^0.20.0-beta.3"
