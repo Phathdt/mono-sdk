@@ -1,7 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Turborepo
+.turbo
+
 # dependencies
 /node_modules
+node_modules/
 /.pnp
 .pnp.*
 .yarn/*
@@ -32,9 +36,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# package manager
+# package manager lock files (keep yarn.lock)
 package-lock.json
-yarn.lock
 pnpm-lock.yaml
 
 # semantic-release
@@ -77,6 +80,7 @@ ck.md
 
 
 .claude/
+.claude_sessions
 .opencode/
 AGENTS.md
 CLAUDE.md

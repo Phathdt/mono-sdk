@@ -1,0 +1,75 @@
+name: Release Beta
+
+on:
+  push:
+    branches: [develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release-beta:
+    name: Release Beta
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'yarn'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@mono-sdk'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Enter prerelease mode (if not already)
+        run: |
+          if [ ! -f .changeset/pre.json ]; then
+            yarn changeset pre enter beta
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add .changeset/pre.json
+            git commit -m "chore: enter beta prerelease mode" || true
+          fi
+
+      - name: Version packages
+        run: |
+          yarn changeset version
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: version packages (beta)" || true
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build packages
+        run: yarn build
+
+      - name: Publish beta packages
+        run: yarn changeset publish --tag beta
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        run: |
+          MONO1_VERSION=$(node -p "require('./packages/mono-1/package.json').version")
+          MONO2_VERSION=$(node -p "require('./packages/mono-2/package.json').version")
+
+          echo "Published beta versions:"
+          echo "@mono-sdk/mono-1@$MONO1_VERSION"
+          echo "@mono-sdk/mono-2@$MONO2_VERSION"
