@@ -37,18 +37,44 @@ jobs:
         run: |
           SHORT_SHA=${{ steps.commit.outputs.short }}
 
+          # First pass: calculate all beta versions
+          declare -A BETA_VERSIONS
+          for dir in packages/*/; do
+            if [ -f "$dir/package.json" ]; then
+              PKG_NAME=$(node -p "require('$dir/package.json').name")
+              CURRENT_VERSION=$(node -p "require('$dir/package.json').version")
+              BETA_VERSIONS[$PKG_NAME]="${CURRENT_VERSION}-beta.${SHORT_SHA}"
+            fi
+          done
+
+          # Second pass: update dependencies and publish
           for dir in packages/*/; do
             if [ -f "$dir/package.json" ]; then
               cd "$dir"
 
-              # Get current version and create beta version
-              CURRENT_VERSION=$(node -p "require('./package.json').version")
-              BETA_VERSION="${CURRENT_VERSION}-beta.${SHORT_SHA}"
+              PKG_NAME=$(node -p "require('./package.json').name")
+              BETA_VERSION="${BETA_VERSIONS[$PKG_NAME]}"
 
-              # Update version temporarily for publish
+              # Update version
               npm version "$BETA_VERSION" --no-git-tag-version
 
-              echo "Publishing $(node -p "require('./package.json').name")@$BETA_VERSION"
+              # Update workspace dependencies to beta versions
+              for DEP_NAME in "${!BETA_VERSIONS[@]}"; do
+                DEP_BETA="${BETA_VERSIONS[$DEP_NAME]}"
+                # Update if this package depends on DEP_NAME
+                if node -p "require('./package.json').dependencies?.['$DEP_NAME'] || ''" | grep -q .; then
+                  node -e "
+                    const fs = require('fs');
+                    const pkg = require('./package.json');
+                    if (pkg.dependencies && pkg.dependencies['$DEP_NAME']) {
+                      pkg.dependencies['$DEP_NAME'] = '$DEP_BETA';
+                      fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2) + '\n');
+                    }
+                  "
+                fi
+              done
+
+              echo "Publishing ${PKG_NAME}@${BETA_VERSION}"
               npm publish --tag beta || true
 
               cd - > /dev/null
