@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.0.2...mono-1-0.0.3) (2026-01-15)
+
+
+### Bug Fixes
+
+* upgrade tsdown to v0.20 and fix dts exports ([64a9cb5](https://github.com/Phathdt/mono-sdk/commit/64a9cb5cc6baae95186e6a28f371c8710a59c316))
+
 ## [0.0.2](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.0.1...mono-1-0.0.2) (2026-01-15)
 
 
