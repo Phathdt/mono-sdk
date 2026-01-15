@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.6](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.0.5...mono-1-0.0.6) (2026-01-15)
+
+
+### Features
+
+* **mono-1:** change hello1 return value to 999 ([cc874e5](https://github.com/Phathdt/mono-sdk/commit/cc874e527ddbd528aa6c35255bb01fde5d318d2c))
+
 ## [0.0.5](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.0.4...mono-1-0.0.5) (2026-01-15)
 
 
