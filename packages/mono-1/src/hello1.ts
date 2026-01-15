@@ -1,3 +1,3 @@
 export function hello1(): number {
-  return 12345;
+  return 1995;
 }
