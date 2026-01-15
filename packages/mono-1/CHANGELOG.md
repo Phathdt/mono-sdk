@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.1.0...mono-1-0.2.0) (2026-01-15)
+
+
+### Features
+
+* 🎸 trigger change ([636d51e](https://github.com/Phathdt/mono-sdk/commit/636d51e1046ed234dbeefe734a8a8b3b129cc1da))
+
 ## [0.1.0](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.0.6...mono-1-0.1.0) (2026-01-15)
 
 
