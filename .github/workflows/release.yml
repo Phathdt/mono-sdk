@@ -4,27 +4,34 @@ on:
   push:
     branches: [main]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
-  release:
-    name: Release
+  release-please:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      contents: write
-      packages: write
-      pull-requests: write
-      id-token: write
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+      paths_released: ${{ steps.release.outputs.paths_released }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
 
+  publish:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.releases_created == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -40,30 +47,14 @@ jobs:
       - name: Build packages
         run: yarn build
 
-      - name: Create Release Pull Request or Publish
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          version: yarn changeset version
-          publish: yarn changeset publish
-          title: 'chore: version packages'
-          commit: 'chore: version packages'
-          createGithubReleases: true
+      - name: Publish to GitHub Packages
+        run: |
+          for dir in packages/*/; do
+            if [ -f "$dir/package.json" ]; then
+              cd "$dir"
+              npm publish || true
+              cd - > /dev/null
+            fi
+          done
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Published packages
-        if: steps.changesets.outputs.published == 'true'
-        run: |
-          echo "Published packages:"
-          echo "${{ steps.changesets.outputs.publishedPackages }}"
-
-      - name: Update stable branch
-        if: steps.changesets.outputs.published == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -B stable
-          git push origin stable --force

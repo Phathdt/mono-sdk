@@ -2,162 +2,132 @@
 
 ## Overview
 
-Both stable and beta releases are **fully automated** via CI/CD.
+Releases are **automated via Release Please** using conventional commits.
 
-| Branch    | Release Type | npm Tag  | Example Version |
-| --------- | ------------ | -------- | --------------- |
-| `main`    | Stable       | `latest` | 1.0.0           |
-| `develop` | Beta         | `beta`   | 1.0.0-beta.0    |
-| `stable`  | (mirror)     | -        | Latest released |
+| Branch | Release Type | npm Tag | Example Version |
+|--------|--------------|---------|-----------------|
+| `main` | Stable | `latest` | 1.0.0 |
+| `develop` | Beta | `beta` | 1.0.0-beta.0 |
+
+| Commit Type | Version Bump | Example |
+|-------------|--------------|---------|
+| `fix:` | Patch | 1.0.0 → 1.0.1 |
+| `feat:` | Minor | 1.0.0 → 1.1.0 |
+| `feat!:` or `BREAKING CHANGE:` | Major | 1.0.0 → 2.0.0 |
 
 ---
 
-## Automated Release Flow
-
-> **Both releases are fully automatic via CI/CD**
+## How It Works
 
 ```mermaid
 flowchart TD
-    A[Developer makes code changes] --> B[yarn changeset]
-    B --> C[git commit & push]
-    C --> D{Which branch?}
-
-    D -->|main| E[release.yml runs]
-    D -->|develop| F[release-beta.yml runs]
-
-    E --> G[Creates Version PR]
-    F --> H[Auto enters beta mode]
-
-    G --> I[Merge Version PR<br/>manual review]
-    H --> J[Versions packages<br/>1.0.0 → 1.0.0-beta.0]
-
-    I --> K[CI publishes to<br/>GitHub Packages<br/>tag: latest]
-    J --> L[CI publishes to<br/>GitHub Packages<br/>tag: beta]
-
-    K --> M[v1.0.0 Published!]
-    L --> N[v1.0.0-beta.0 Published!]
-
-    M --> O[Update stable branch]
+    A[Developer commits] --> B{Which branch?}
+    B -->|main| C[Release Please creates Release PR]
+    B -->|develop| D[Release Please creates Beta PR]
+    C --> E[Merge PR]
+    D --> F[Merge PR]
+    E --> G[Publish stable v1.0.0]
+    F --> H[Publish beta v1.0.0-beta.0]
 ```
 
 ---
 
-## Step-by-Step Workflows
-
-### Stable Release (main branch) - Automatic
+## Stable Release (main branch)
 
 ```bash
-# 1. Make changes on feature branch
-git checkout -b feat/my-feature
+# 1. Make changes with conventional commits
+git commit -m "feat: add new API method"
 
-# 2. Create changeset
-yarn changeset
-# Select packages, bump type (patch/minor/major), write summary
+# 2. Push to main
+git push origin main
 
-# 3. Commit and push
-git add .
-git commit -m "feat: add new feature"
-git push -u origin feat/my-feature
+# 3. Release Please creates Release PR automatically
 
-# 4. Create PR to main → Merge PR
-
-# 5. CI automatically:
-#    - Detects changesets
-#    - Creates "Version PR"
-#    - You merge Version PR
-#    - Publishes v1.0.0 to GitHub Packages
+# 4. Merge the Release PR → packages published as stable!
 ```
 
-### Beta Release (develop branch) - Automatic
+---
+
+## Beta Release (develop branch)
 
 ```bash
-# 1. Create/switch to develop branch
-git checkout -b develop
-# OR if develop exists:
+# 1. Create/switch to develop
 git checkout develop
-git merge main  # sync with main
 
-# 2. Make changes
-# ... code changes ...
+# 2. Make changes with conventional commits
+git commit -m "feat: experimental feature"
 
-# 3. Create changeset
-yarn changeset
+# 3. Push to develop
+git push origin develop
 
-# 4. Commit and push
-git add .
-git commit -m "feat: beta feature"
-git push -u origin develop
+# 4. Release Please creates Beta Release PR
 
-# 5. CI automatically:
-#    - Enters beta prerelease mode (if not already)
-#    - Versions to 1.0.0-beta.0
-#    - Publishes with 'beta' tag
-
-# 6. Subsequent pushes to develop → 1.0.0-beta.1, beta.2, etc.
+# 5. Merge → packages published with beta tag!
 ```
 
-### Promote Beta to Stable
+---
+
+## Promote Beta to Stable
 
 ```bash
-# 1. On develop branch, exit prerelease mode
-yarn prerelease:exit  # or: yarn changeset pre exit
-
-# 2. Commit the pre.json removal
-git add .changeset/
-git commit -m "chore: exit beta prerelease"
-
-# 3. Merge develop into main
+# 1. Merge develop into main
 git checkout main
 git merge develop
 git push
 
-# 4. CI creates Version PR with stable version (1.0.0)
-# 5. Merge Version PR → Published as stable!
+# 2. Release Please creates stable Release PR
+
+# 3. Merge → stable version published!
 ```
 
 ---
 
-## Branch Strategy
+## Commit Message Format
 
-```mermaid
-gitGraph
-    commit id: "v1.0.0"
-    commit id: "v1.0.1"
-    branch develop
-    commit id: "v1.1.0-beta.0"
-    commit id: "v1.1.0-beta.1"
-    commit id: "v1.1.0-beta.2"
-    checkout main
-    merge develop id: "v1.1.0"
-    commit id: "v1.1.1"
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
 ```
 
----
+### Types
 
-## Available Scripts
+| Type | Description | Version Bump |
+|------|-------------|--------------|
+| `feat` | New feature | Minor |
+| `fix` | Bug fix | Patch |
+| `docs` | Documentation only | None |
+| `style` | Code style (formatting) | None |
+| `refactor` | Code refactoring | None |
+| `perf` | Performance improvement | Patch |
+| `test` | Adding tests | None |
+| `chore` | Maintenance | None |
 
-| Script                  | Description                  |
-| ----------------------- | ---------------------------- |
-| `yarn changeset`        | Create a new changeset       |
-| `yarn version-packages` | Apply changesets to versions |
-| `yarn release`          | Build and publish (stable)   |
-| `yarn release:beta`     | Build and publish (beta tag) |
-| `yarn prerelease:beta`  | Enter beta prerelease mode   |
-| `yarn prerelease:exit`  | Exit prerelease mode         |
+### Breaking Changes
+
+```bash
+feat!: remove deprecated method
+# OR
+feat: update API
+
+BREAKING CHANGE: method signature changed
+```
 
 ---
 
 ## CI/CD Workflows
 
-| File               | Trigger                 | Action                                            |
-| ------------------ | ----------------------- | ------------------------------------------------- |
-| `ci.yml`           | PR/Push to main/develop | Lint, build, typecheck                            |
-| `release.yml`      | Push to main            | Create Version PR, publish stable, update `stable` branch |
-| `release-beta.yml` | Push to develop         | Auto-publish beta versions                        |
+| File | Trigger | Action |
+|------|---------|--------|
+| `ci.yml` | PR/Push to main/develop | Lint, build, typecheck |
+| `release.yml` | Push to main | Release Please + Publish stable |
+| `release-beta.yml` | Push to develop | Release Please + Publish beta |
 
 ---
 
-## npm Install Commands
+## Install Packages
 
 ```bash
 # Install stable (latest)
@@ -167,17 +137,14 @@ yarn add @phathdt/mono-1
 yarn add @phathdt/mono-1@beta
 
 # Install specific version
-yarn add @phathdt/mono-1@1.0.0-beta.1
+yarn add @phathdt/mono-1@1.0.0-beta.0
 ```
 
 ---
 
-## Version Examples
+## Configuration Files
 
-| Action              | Before       | After        |
-| ------------------- | ------------ | ------------ |
-| Patch (bug fix)     | 1.0.0        | 1.0.1        |
-| Minor (new feature) | 1.0.0        | 1.1.0        |
-| Major (breaking)    | 1.0.0        | 2.0.0        |
-| Beta patch          | 1.0.0-beta.0 | 1.0.0-beta.1 |
-| Beta to stable      | 1.0.0-beta.5 | 1.0.0        |
+| File | Purpose |
+|------|---------|
+| `release-please-config.json` | Package configuration |
+| `.release-please-manifest.json` | Current versions tracking |
