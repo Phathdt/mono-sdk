@@ -6,9 +6,7 @@
   ],
   "commit": false,
   "fixed": [],
-  "linked": [
-    ["@phathdt/mono-1", "@phathdt/mono-2"]
-  ],
+  "linked": [],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
