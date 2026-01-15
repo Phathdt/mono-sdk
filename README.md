@@ -1,6 +1,6 @@
 # mono-sdk
 
-A TypeScript monorepo with multiple packages, built with Turborepo, tsdown, and Release Please.
+A TypeScript monorepo with multiple packages, built with Turborepo and tsdown.
 
 ## Requirements
 
@@ -9,10 +9,10 @@ A TypeScript monorepo with multiple packages, built with Turborepo, tsdown, and 
 
 ## Packages
 
-| Package            | Description                           |
-| ------------------ | ------------------------------------- |
-| `@phathdt/mono-1` | Base utilities package                |
-| `@phathdt/mono-2` | Extended features (depends on mono-1) |
+| Package           | Description                             |
+| ----------------- | --------------------------------------- |
+| `@phathdt/mono-1` | Base utilities package                  |
+| `@phathdt/mono-2` | Extended features (depends on mono-1)   |
 | `@phathdt/mono-3` | Additional features (depends on mono-1) |
 
 ## Getting Started
@@ -31,52 +31,55 @@ yarn typecheck
 yarn dev
 ```
 
-## Project Structure
-
-```
-mono-sdk/
-├── packages/
-│   ├── mono-1/          # Base package
-│   ├── mono-2/          # Extended package (imports mono-1)
-│   └── mono-3/          # Additional package (imports mono-1)
-├── .github/workflows/   # CI/CD
-│   ├── ci.yml           # Build & typecheck
-│   ├── release.yml      # Stable releases (main)
-│   └── release-beta.yml # Beta releases (develop)
-├── turbo.json           # Turborepo config
-└── package.json         # Workspace root
-```
-
 ## Release Workflow
 
-Uses [Release Please](https://github.com/googleapis/release-please) with conventional commits.
+### Branches
 
-| Branch    | Release Type | npm Tag  | Example      |
-| --------- | ------------ | -------- | ------------ |
-| `main`    | Stable       | `latest` | 1.0.0        |
-| `develop` | Beta         | `beta`   | 1.0.0-beta.0 |
+| Branch    | Purpose              | Version Format            | npm Tag  |
+| --------- | -------------------- | ------------------------- | -------- |
+| `main`    | Stable releases      | `0.0.6`                   | `latest` |
+| `develop` | Beta/testing         | `0.0.5-beta.{commit}`     | `beta`   |
 
-### Creating a Release
+### Development Flow
 
-1. Use conventional commits:
-   ```bash
-   git commit -m "feat: add new feature"
-   git commit -m "fix: resolve bug"
-   ```
+```
+feature/* → develop (auto beta) → PR to main → Release PR → stable
+```
 
-2. Push to main - Release Please creates a Release PR automatically
+1. **Feature development**: Branch from `main`, merge to `develop`
+2. **Beta testing**: Every push to `develop` auto-publishes beta versions
+3. **Stable release**: Create PR from `develop` to `main`, merge Release PR
 
-3. Merge the Release PR - packages are published to npm
+### Beta Releases (Automatic)
 
-### Conventional Commit Types
+Every push to `develop` automatically publishes beta versions:
 
-| Type     | Release | Description          |
-| -------- | ------- | -------------------- |
-| `feat`   | minor   | New feature          |
-| `fix`    | patch   | Bug fix              |
-| `docs`   | -       | Documentation only   |
-| `chore`  | -       | Maintenance          |
-| `BREAKING CHANGE` | major | Breaking change |
+```bash
+# Packages published with commit hash
+@phathdt/mono-1@0.0.5-beta.eab485e
+@phathdt/mono-2@0.0.6-beta.eab485e
+@phathdt/mono-3@0.0.4-beta.eab485e
+
+# Install beta
+yarn add @phathdt/mono-1@beta
+```
+
+### Stable Releases (Via PR)
+
+Uses [Release Please](https://github.com/googleapis/release-please) with conventional commits:
+
+1. Push to `main` → Release Please creates Release PR
+2. Merge Release PR → publishes stable versions
+
+#### Conventional Commit Types
+
+| Type              | Release | Description     |
+| ----------------- | ------- | --------------- |
+| `feat`            | minor   | New feature     |
+| `fix`             | patch   | Bug fix         |
+| `docs`            | -       | Documentation   |
+| `chore`           | -       | Maintenance     |
+| `BREAKING CHANGE` | major   | Breaking change |
 
 ## Available Scripts
 
@@ -88,14 +91,16 @@ Uses [Release Please](https://github.com/googleapis/release-please) with convent
 | `yarn lint`         | Lint all packages            |
 | `yarn lint:fix`     | Lint and auto-fix issues     |
 | `yarn format`       | Format code with Prettier    |
-| `yarn format:check` | Check formatting             |
 | `yarn clean`        | Clean build artifacts        |
 
 ## Installation
 
 ```bash
-# Install packages
+# Install stable version
 yarn add @phathdt/mono-1 @phathdt/mono-2 @phathdt/mono-3
+
+# Install beta version
+yarn add @phathdt/mono-1@beta @phathdt/mono-2@beta @phathdt/mono-3@beta
 ```
 
 ## License

@@ -3,6 +3,11 @@ name: Release Beta
 on:
   push:
     branches: [develop]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+      - 'LICENSE'
 
 permissions:
   contents: read
