@@ -5,35 +5,15 @@ on:
     branches: [develop]
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+  packages: write
 
 jobs:
-  release-please:
+  publish-beta:
     runs-on: ubuntu-latest
-    outputs:
-      releases_created: ${{ steps.release.outputs.releases_created }}
-    steps:
-      - uses: googleapis/release-please-action@v4
-        id: release
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          config-file: release-please-config-beta.json
-          manifest-file: .release-please-manifest-beta.json
-          target-branch: develop
-
-  publish:
-    needs: release-please
-    if: ${{ needs.release-please.outputs.releases_created == 'true' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: develop
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -49,12 +29,28 @@ jobs:
       - name: Build packages
         run: yarn build
 
-      - name: Publish beta to GitHub Packages
+      - name: Get short commit hash
+        id: commit
+        run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Publish beta versions
         run: |
+          SHORT_SHA=${{ steps.commit.outputs.short }}
+
           for dir in packages/*/; do
             if [ -f "$dir/package.json" ]; then
               cd "$dir"
+
+              # Get current version and create beta version
+              CURRENT_VERSION=$(node -p "require('./package.json').version")
+              BETA_VERSION="${CURRENT_VERSION}-beta.${SHORT_SHA}"
+
+              # Update version temporarily for publish
+              npm version "$BETA_VERSION" --no-git-tag-version
+
+              echo "Publishing $(node -p "require('./package.json').name")@$BETA_VERSION"
               npm publish --tag beta || true
+
               cd - > /dev/null
             fi
           done
