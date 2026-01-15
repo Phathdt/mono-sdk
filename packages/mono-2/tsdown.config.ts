@@ -9,7 +9,7 @@ export default defineConfig({
   clean: true,
   sourcemap: true,
   treeshake: true,
-  minify: false,
+  minify: true,
   target: 'es2022',
   skipNodeModulesBundle: true,
   external: ['@phathdt/mono-1'],
