@@ -1,6 +1,6 @@
 {
   "name": "@phathdt/mono-1",
-  "version": "0.0.5",
+  "version": "0.0.7-beta.0",
   "description": "Base utilities package for mono-sdk",
   "type": "module",
   "exports": {
