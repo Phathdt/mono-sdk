@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.1.0](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.0.6...mono-1-0.1.0) (2026-01-15)
+
+
+### Features
+
+* 🎸 hello 1 to 123 ([56b08d6](https://github.com/Phathdt/mono-sdk/commit/56b08d624a9943b8a8ba1168fb6310130341f861))
+* 🎸 hello 1 to 123 ([b4c5461](https://github.com/Phathdt/mono-sdk/commit/b4c54613901e1087c649e515d43c2827e4fd445b))
+* 🎸 hello 1 to 12345 ([e1f063e](https://github.com/Phathdt/mono-sdk/commit/e1f063e67a3bef57d200d73fac4e142e86d24b2e))
+
+
+### Bug Fixes
+
+* 🐛 hello 1 to 1234 ([1235e68](https://github.com/Phathdt/mono-sdk/commit/1235e6872b8d2d0d51ec1e58c3fe52552e4f2f1e))
+
+
+### Performance Improvements
+
+* enable minification for all packages ([1f9f1aa](https://github.com/Phathdt/mono-sdk/commit/1f9f1aa4e66a2bd353ed3d09eea55dd64af65dde))
+
 ## [0.0.6](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.0.5...mono-1-0.0.6) (2026-01-15)
 
 

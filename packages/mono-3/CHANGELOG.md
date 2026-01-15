@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.6](https://github.com/Phathdt/mono-sdk/compare/mono-3-0.0.5...mono-3-0.0.6) (2026-01-15)
+
+
+### Performance Improvements
+
+* enable minification for all packages ([1f9f1aa](https://github.com/Phathdt/mono-sdk/commit/1f9f1aa4e66a2bd353ed3d09eea55dd64af65dde))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @phathdt/mono-1 bumped from ^0.0.6 to ^0.1.0
+
 ## [0.0.5](https://github.com/Phathdt/mono-sdk/compare/mono-3-0.0.4...mono-3-0.0.5) (2026-01-15)
 
 
