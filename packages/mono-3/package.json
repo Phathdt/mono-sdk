@@ -1,6 +1,6 @@
 {
   "name": "@phathdt/mono-3",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Additional features package built on mono-1",
   "type": "module",
   "exports": {
@@ -30,7 +30,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@phathdt/mono-1": "^0.0.5"
+    "@phathdt/mono-1": "^0.0.6"
   },
   "devDependencies": {
     "tsdown": "^0.20.0-beta.3"
