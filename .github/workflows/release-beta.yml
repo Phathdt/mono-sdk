@@ -45,15 +45,17 @@ jobs:
           # First pass: calculate all beta versions
           declare -A BETA_VERSIONS
           for dir in packages/*/; do
+            dir="${dir%/}"  # Remove trailing slash
             if [ -f "$dir/package.json" ]; then
-              PKG_NAME=$(node -p "require('$dir/package.json').name")
-              CURRENT_VERSION=$(node -p "require('$dir/package.json').version")
+              PKG_NAME=$(node -p "require('./$dir/package.json').name")
+              CURRENT_VERSION=$(node -p "require('./$dir/package.json').version")
               BETA_VERSIONS[$PKG_NAME]="${CURRENT_VERSION}-beta.${SHORT_SHA}"
             fi
           done
 
           # Second pass: update dependencies and publish
           for dir in packages/*/; do
+            dir="${dir%/}"  # Remove trailing slash
             if [ -f "$dir/package.json" ]; then
               cd "$dir"
 
