@@ -19,7 +19,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: release-please-config-beta.json
-          manifest-file: .release-please-manifest.json
+          manifest-file: .release-please-manifest-beta.json
           target-branch: develop
 
   publish:

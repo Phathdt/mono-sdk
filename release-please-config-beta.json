@@ -25,7 +25,7 @@
       "components": ["@phathdt/mono-1", "@phathdt/mono-2", "@phathdt/mono-3"]
     }
   ],
-  "prerelease": true,
+  "versioning-strategy": "prerelease",
   "prerelease-type": "beta",
   "separate-pull-requests": false,
   "bump-minor-pre-major": true,
