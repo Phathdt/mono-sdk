@@ -1,3 +1,3 @@
 export function hello1(): number {
-  return 999;
+  return 123;
 }
