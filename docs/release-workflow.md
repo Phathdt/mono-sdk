@@ -161,13 +161,13 @@ gitGraph
 
 ```bash
 # Install stable (latest)
-yarn add @mono-sdk/mono-1
+yarn add @phathdt/mono-1
 
 # Install beta
-yarn add @mono-sdk/mono-1@beta
+yarn add @phathdt/mono-1@beta
 
 # Install specific version
-yarn add @mono-sdk/mono-1@1.0.0-beta.1
+yarn add @phathdt/mono-1@1.0.0-beta.1
 ```
 
 ---

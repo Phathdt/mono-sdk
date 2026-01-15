@@ -12,5 +12,5 @@ export default defineConfig({
   minify: false,
   target: 'es2022',
   skipNodeModulesBundle: true,
-  external: ['@mono-sdk/mono-1'],
+  external: ['@phathdt/mono-1'],
 });

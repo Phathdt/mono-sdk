@@ -30,7 +30,7 @@ jobs:
           node-version: '22'
           cache: 'yarn'
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@mono-sdk'
+          scope: '@phathdt'
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -71,5 +71,5 @@ jobs:
           MONO2_VERSION=$(node -p "require('./packages/mono-2/package.json').version")
 
           echo "Published beta versions:"
-          echo "@mono-sdk/mono-1@$MONO1_VERSION"
-          echo "@mono-sdk/mono-2@$MONO2_VERSION"
+          echo "@phathdt/mono-1@$MONO1_VERSION"
+          echo "@phathdt/mono-2@$MONO2_VERSION"

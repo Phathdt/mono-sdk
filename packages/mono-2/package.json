@@ -1,5 +1,5 @@
 {
-  "name": "@mono-sdk/mono-2",
+  "name": "@phathdt/mono-2",
   "version": "0.0.1",
   "description": "Extended features package built on mono-1",
   "type": "module",
@@ -30,7 +30,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@mono-sdk/mono-1": "*"
+    "@phathdt/mono-1": "*"
   },
   "devDependencies": {
     "tsdown": "^0.4.0"
@@ -41,7 +41,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mono-sdk/mono-sdk.git",
+    "url": "https://github.com/Phathdt/mono-sdk.git",
     "directory": "packages/mono-2"
   },
   "license": "MIT",

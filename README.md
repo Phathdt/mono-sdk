@@ -11,8 +11,8 @@ A TypeScript monorepo with multiple packages, built with Turborepo, tsdown, and 
 
 | Package            | Description                           |
 | ------------------ | ------------------------------------- |
-| `@mono-sdk/mono-1` | Base utilities package                |
-| `@mono-sdk/mono-2` | Extended features (depends on mono-1) |
+| `@phathdt/mono-1` | Base utilities package                |
+| `@phathdt/mono-2` | Extended features (depends on mono-1) |
 
 ## Getting Started
 
@@ -117,10 +117,10 @@ git push
 
 ```bash
 # Install stable version
-yarn add @mono-sdk/mono-1 @mono-sdk/mono-2
+yarn add @phathdt/mono-1 @phathdt/mono-2
 
 # Install beta version
-yarn add @mono-sdk/mono-1@beta @mono-sdk/mono-2@beta
+yarn add @phathdt/mono-1@beta @phathdt/mono-2@beta
 ```
 
 ## License
