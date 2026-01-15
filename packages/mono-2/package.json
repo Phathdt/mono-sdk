@@ -1,6 +1,6 @@
 {
   "name": "@phathdt/mono-2",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Extended features package built on mono-1",
   "type": "module",
   "exports": {
