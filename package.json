@@ -5,14 +5,13 @@
   "type": "module",
   "packageManager": "yarn@1.22.22",
   "workspaces": [
-    "packages/*",
-    "example"
+    "packages/*"
   ],
   "engines": {
     "node": ">=22.0.0"
   },
   "scripts": {
-    "build": "turbo run clean --filter='!example' && turbo run build --filter='!example'",
+    "build": "turbo run clean && turbo run build",
     "dev": "turbo run dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -28,6 +27,7 @@
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
     "prettier": "^3.4.2",
+    "tsdown": "^0.20.0-beta.3",
     "turbo": "^2.4.0",
     "typescript": "^5.7.0",
     "typescript-eslint": "^8.20.0"

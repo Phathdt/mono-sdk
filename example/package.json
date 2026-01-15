@@ -10,7 +10,7 @@
     "dev": "tsc && node dist/index.js"
   },
   "dependencies": {
-    "@phathdt/mono-2": "*"
+    "@phathdt/mono-2": "0.0.3"
   },
   "devDependencies": {
     "typescript": "^5.7.0"
