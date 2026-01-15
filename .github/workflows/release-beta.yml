@@ -4,27 +4,38 @@ on:
   push:
     branches: [develop]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
-  release-beta:
-    name: Release Beta
+  release-please:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      contents: write
-      packages: write
-      pull-requests: write
-      id-token: write
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+          target-branch: develop
+          prerelease: true
+          prerelease-type: beta
 
+  publish:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.releases_created == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: develop
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -37,41 +48,17 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Enter prerelease mode (if not already)
-        run: |
-          if [ ! -f .changeset/pre.json ]; then
-            yarn changeset pre enter beta
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add .changeset/pre.json
-            git commit -m "chore: enter beta prerelease mode" || true
-          fi
-
-      - name: Version packages
-        run: |
-          yarn changeset version
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "chore: version packages (beta)" || true
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Build packages
         run: yarn build
 
-      - name: Publish beta packages
-        run: yarn changeset publish --tag beta
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create GitHub Release
+      - name: Publish beta to GitHub Packages
         run: |
-          MONO1_VERSION=$(node -p "require('./packages/mono-1/package.json').version")
-          MONO2_VERSION=$(node -p "require('./packages/mono-2/package.json').version")
-
-          echo "Published beta versions:"
-          echo "@phathdt/mono-1@$MONO1_VERSION"
-          echo "@phathdt/mono-2@$MONO2_VERSION"
+          for dir in packages/*/; do
+            if [ -f "$dir/package.json" ]; then
+              cd "$dir"
+              npm publish --tag beta || true
+              cd - > /dev/null
+            fi
+          done
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
