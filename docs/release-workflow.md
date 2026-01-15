@@ -8,6 +8,7 @@ Both stable and beta releases are **fully automated** via CI/CD.
 | --------- | ------------ | -------- | --------------- |
 | `main`    | Stable       | `latest` | 1.0.0           |
 | `develop` | Beta         | `beta`   | 1.0.0-beta.0    |
+| `stable`  | (mirror)     | -        | Latest released |
 
 ---
 
@@ -35,6 +36,8 @@ flowchart TD
 
     K --> M[v1.0.0 Published!]
     L --> N[v1.0.0-beta.0 Published!]
+
+    M --> O[Update stable branch]
 ```
 
 ---
@@ -146,11 +149,11 @@ gitGraph
 
 ## CI/CD Workflows
 
-| File               | Trigger                 | Action                              |
-| ------------------ | ----------------------- | ----------------------------------- |
-| `ci.yml`           | PR/Push to main/develop | Build, typecheck                    |
-| `release.yml`      | Push to main            | Create Version PR or publish stable |
-| `release-beta.yml` | Push to develop         | Auto-publish beta versions          |
+| File               | Trigger                 | Action                                            |
+| ------------------ | ----------------------- | ------------------------------------------------- |
+| `ci.yml`           | PR/Push to main/develop | Lint, build, typecheck                            |
+| `release.yml`      | Push to main            | Create Version PR, publish stable, update `stable` branch |
+| `release-beta.yml` | Push to develop         | Auto-publish beta versions                        |
 
 ---
 

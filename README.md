@@ -52,6 +52,7 @@ mono-sdk/
 | --------- | ------------ | -------- | ------------ |
 | `main`    | Stable       | `latest` | 1.0.0        |
 | `develop` | Beta         | `beta`   | 1.0.0-beta.0 |
+| `stable`  | (mirror)     | -        | Latest released |
 
 ### Creating a Release
 
@@ -64,7 +65,7 @@ git add . && git commit -m "feat: add feature"
 git push
 
 # 3. CI handles the rest:
-#    - main branch: Creates Version PR → merge → publishes stable
+#    - main branch: Creates Version PR → merge → publishes stable → updates stable branch
 #    - develop branch: Auto-publishes beta versions
 ```
 
