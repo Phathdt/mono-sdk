@@ -1,6 +1,6 @@
 # mono-sdk
 
-A TypeScript monorepo with multiple packages, built with Turborepo, tsdown, and Changesets.
+A TypeScript monorepo with multiple packages, built with Turborepo, tsdown, and Release Please.
 
 ## Requirements
 
@@ -13,6 +13,7 @@ A TypeScript monorepo with multiple packages, built with Turborepo, tsdown, and 
 | ------------------ | ------------------------------------- |
 | `@phathdt/mono-1` | Base utilities package                |
 | `@phathdt/mono-2` | Extended features (depends on mono-1) |
+| `@phathdt/mono-3` | Additional features (depends on mono-1) |
 
 ## Getting Started
 
@@ -36,8 +37,8 @@ yarn dev
 mono-sdk/
 ├── packages/
 │   ├── mono-1/          # Base package
-│   └── mono-2/          # Extended package (imports mono-1)
-├── .changeset/          # Changesets config
+│   ├── mono-2/          # Extended package (imports mono-1)
+│   └── mono-3/          # Additional package (imports mono-1)
 ├── .github/workflows/   # CI/CD
 │   ├── ci.yml           # Build & typecheck
 │   ├── release.yml      # Stable releases (main)
@@ -48,79 +49,53 @@ mono-sdk/
 
 ## Release Workflow
 
+Uses [Release Please](https://github.com/googleapis/release-please) with conventional commits.
+
 | Branch    | Release Type | npm Tag  | Example      |
 | --------- | ------------ | -------- | ------------ |
 | `main`    | Stable       | `latest` | 1.0.0        |
 | `develop` | Beta         | `beta`   | 1.0.0-beta.0 |
-| `stable`  | (mirror)     | -        | Latest released |
 
 ### Creating a Release
 
-```bash
-# 1. Create a changeset
-yarn changeset
+1. Use conventional commits:
+   ```bash
+   git commit -m "feat: add new feature"
+   git commit -m "fix: resolve bug"
+   ```
 
-# 2. Commit and push
-git add . && git commit -m "feat: add feature"
-git push
+2. Push to main - Release Please creates a Release PR automatically
 
-# 3. CI handles the rest:
-#    - main branch: Creates Version PR → merge → publishes stable → updates stable branch
-#    - develop branch: Auto-publishes beta versions
-```
+3. Merge the Release PR - packages are published to npm
 
-### Beta Releases
+### Conventional Commit Types
 
-```bash
-# Work on develop branch
-git checkout develop
-
-# Make changes, create changeset
-yarn changeset
-
-# Push - CI auto-publishes as beta
-git push
-```
-
-### Promote Beta to Stable
-
-```bash
-# Exit prerelease mode
-yarn prerelease:exit
-
-# Merge develop into main
-git checkout main
-git merge develop
-git push
-```
+| Type     | Release | Description          |
+| -------- | ------- | -------------------- |
+| `feat`   | minor   | New feature          |
+| `fix`    | patch   | Bug fix              |
+| `docs`   | -       | Documentation only   |
+| `chore`  | -       | Maintenance          |
+| `BREAKING CHANGE` | major | Breaking change |
 
 ## Available Scripts
 
-| Script                  | Description                      |
-| ----------------------- | -------------------------------- |
-| `yarn build`            | Clean and build all packages     |
-| `yarn dev`              | Watch mode                       |
-| `yarn typecheck`        | Type check all packages          |
-| `yarn lint`             | Lint all packages                |
-| `yarn lint:fix`         | Lint and auto-fix issues         |
-| `yarn format`           | Format code with Prettier        |
-| `yarn format:check`     | Check formatting                 |
-| `yarn clean`            | Clean build artifacts            |
-| `yarn ctix`             | Generate index.ts barrel files   |
-| `yarn changeset`        | Create a changeset               |
-| `yarn version-packages` | Apply changesets                 |
-| `yarn release`          | Build and publish                |
-| `yarn prerelease:beta`  | Enter beta mode                  |
-| `yarn prerelease:exit`  | Exit prerelease mode             |
+| Script              | Description                  |
+| ------------------- | ---------------------------- |
+| `yarn build`        | Clean and build all packages |
+| `yarn dev`          | Watch mode                   |
+| `yarn typecheck`    | Type check all packages      |
+| `yarn lint`         | Lint all packages            |
+| `yarn lint:fix`     | Lint and auto-fix issues     |
+| `yarn format`       | Format code with Prettier    |
+| `yarn format:check` | Check formatting             |
+| `yarn clean`        | Clean build artifacts        |
 
 ## Installation
 
 ```bash
-# Install stable version
-yarn add @phathdt/mono-1 @phathdt/mono-2
-
-# Install beta version
-yarn add @phathdt/mono-1@beta @phathdt/mono-2@beta
+# Install packages
+yarn add @phathdt/mono-1 @phathdt/mono-2 @phathdt/mono-3
 ```
 
 ## License
