@@ -1,1 +1,1 @@
-export * from './hello4';
+export * from './hello4.js';

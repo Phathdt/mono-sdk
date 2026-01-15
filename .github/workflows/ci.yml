@@ -37,10 +37,3 @@ jobs:
 
       - name: Typecheck
         run: yarn typecheck
-
-      - name: Check changeset
-        if: github.event_name == 'pull_request'
-        run: |
-          if ! yarn changeset status --since=origin/main; then
-            echo "::warning::No changeset found. Consider adding one with 'yarn changeset'"
-          fi

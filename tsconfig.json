@@ -20,6 +20,5 @@
     "declarationMap": true,
     "sourceMap": true
   },
-  "references": [{ "path": "packages/mono-1" }, { "path": "packages/mono-2" }],
   "exclude": ["node_modules", "dist", "build"]
 }

@@ -1,15 +1,13 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "./src",
     "outDir": "./dist",
-    "composite": true,
+    "noEmit": true,
     "baseUrl": "../..",
     "paths": {
       "@phathdt/mono-1": ["packages/mono-1/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts"],
-  "references": [{ "path": "../mono-1" }]
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }
