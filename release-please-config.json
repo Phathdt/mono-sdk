@@ -8,6 +8,10 @@
     "packages/mono-2": {
       "package-name": "@phathdt/mono-2",
       "release-type": "node"
+    },
+    "packages/mono-3": {
+      "package-name": "@phathdt/mono-3",
+      "release-type": "node"
     }
   },
   "separate-pull-requests": false,
