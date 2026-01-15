@@ -14,6 +14,17 @@
       "release-type": "node"
     }
   },
+  "plugins": [
+    {
+      "type": "node-workspace",
+      "updatePeerDependencies": true
+    },
+    {
+      "type": "linked-versions",
+      "groupName": "mono-sdk",
+      "components": ["@phathdt/mono-1", "@phathdt/mono-2", "@phathdt/mono-3"]
+    }
+  ],
   "separate-pull-requests": false,
   "bump-minor-pre-major": true,
   "bump-patch-for-minor-pre-major": true,
