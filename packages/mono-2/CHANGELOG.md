@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3](https://github.com/Phathdt/mono-sdk/compare/mono-2-0.0.2...mono-2-0.0.3) (2026-01-15)
+
+
+### Bug Fixes
+
+* **mono-2:** revert hello3 multiplier back to 3 ([6200b22](https://github.com/Phathdt/mono-sdk/commit/6200b22f37513241ef990cfc4c12c4feaa04e500))
+
 ## [0.0.2](https://github.com/Phathdt/mono-sdk/compare/mono-2-0.0.1...mono-2-0.0.2) (2026-01-15)
 
 
