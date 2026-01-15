@@ -18,11 +18,9 @@ jobs:
         id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          config-file: release-please-config.json
+          config-file: release-please-config-beta.json
           manifest-file: .release-please-manifest.json
           target-branch: develop
-          prerelease: true
-          prerelease-type: beta
 
   publish:
     needs: release-please
