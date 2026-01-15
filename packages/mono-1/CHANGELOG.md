@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.0.4](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.0.3...mono-1-0.0.4) (2026-01-15)
+
+
+### Features
+
+* **mono-1:** change hello1 return value from 123 to 456 ([3fe81d6](https://github.com/Phathdt/mono-sdk/commit/3fe81d6939ce132f714c49c17bd78b95b019e112))
+* **mono-1:** change hello1 return value from 456 to 789 ([3a1f726](https://github.com/Phathdt/mono-sdk/commit/3a1f72686528225da8fef95d7ed4a1c53dc0ddfa))
+
+
+### Bug Fixes
+
+* resolve typecheck CI failure ([6c83b98](https://github.com/Phathdt/mono-sdk/commit/6c83b988b026548e533e9271927b0461e6f09a1e))
+
 ## [0.0.3](https://github.com/Phathdt/mono-sdk/compare/mono-1-0.0.2...mono-1-0.0.3) (2026-01-15)
 
 
